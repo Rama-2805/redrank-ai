@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+
+data/
+artifacts/
+
+.env
+
+candidate_embeddings.npy
+candidate_db.pkl
+faiss.index
