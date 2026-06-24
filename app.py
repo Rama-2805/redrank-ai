@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 
+from src.ranker import final_score
+from src.fraud_detector import fraud_score
+from src.report_generator import generate_report
 from src.dashboard import get_dashboard_stats
 from src.gap_analysis import gap_analysis
 from src.candidate_compare import compare_candidates
@@ -191,7 +194,7 @@ if st.button("Rank Candidates"):
     st.divider()
 
     for rank, (_, row) in enumerate(
-        df.head(10).iterrows(),
+        df.head(5).iterrows(),
         start=1
     ):
 
@@ -203,7 +206,15 @@ if st.button("Rank Candidates"):
             info,
             row["score"]
         )
-
+        risk = fraud_score(info)
+        ranking_score = final_score(
+            row["score"],
+            info["experience"],
+            info["github"],
+            info["interview_rate"],
+            info["open_to_work"],
+            risk
+        )
         resume_match = 0
 
         if uploaded_file:
@@ -239,7 +250,7 @@ if st.button("Rank Candidates"):
 """
         )
 
-        mc1, mc2, mc3, mc4 = st.columns(4)
+        mc1, mc2, mc3, mc4, mc5, mc6 = st.columns(6)
 
         mc1.metric(
             "Skills Match",
@@ -261,6 +272,15 @@ if st.button("Rank Candidates"):
             f"{match['recruiter']}%"
         )
 
+        mc5.metric(
+            "Risk Score",
+            f"{risk}%"
+        )
+        mc6.metric(
+            "Ranking Score",
+            ranking_score
+        )
+    
         st.write(
             f"Overall Match: {match['overall']}%"
         )
@@ -271,6 +291,24 @@ if st.button("Rank Candidates"):
                 100
             )
         )
+
+        if risk < 20:
+
+            st.success(
+                "🟢 Low Risk Candidate"
+            )
+
+        elif risk < 50:
+
+            st.warning(
+                "🟡 Medium Risk Candidate"
+            )
+
+        else:
+
+            st.error(
+                "🔴 High Risk Candidate"
+            )
 
         st.write(
             f"Resume Match Score: {resume_match}%"
@@ -378,8 +416,27 @@ Keep it concise.
     st.success(
         f"🏆 Winner: {comparison['winner']}"
     )
+    
+    st.subheader(
+        "📥 Download Hiring Report"
+    )
 
-# AI Recruiter Copilot
+    report_file = generate_report(
+        df.head(20)
+    )
+
+    with open(
+        report_file,
+        "rb"
+    ) as f:
+
+        st.download_button(
+            label="Download Top Candidates Report",
+            data=f,
+            file_name="hiring_report.csv",
+            mime="text/csv"
+        )
+
 
 # AI Recruiter Copilot
 
