@@ -10,3 +10,4 @@ artifacts/
 candidate_embeddings.npy
 candidate_db.pkl
 faiss.index
+.DS_Store
