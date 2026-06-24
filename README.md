@@ -61,12 +61,106 @@ Features:
 Final ranking combines all signals into a unified score.
 
 ---
+## Stage 5: Fraud Detection & Risk Scoring
+
+To improve shortlist quality and reduce false positives, RedRank AI includes a fraud detection module.
+
+Risk factors considered:
+
+- Skill stuffing
+- Low GitHub activity with unusually high experience
+- Inconsistent candidate signals
+- Low interview completion rates
+
+Risk Levels:
+
+- Low Risk
+- Medium Risk
+- High Risk
+
+High-risk candidates receive ranking penalties before final ranking.
+
+## Stage 6: Explainability
+
+Every ranking decision is transparent.
+
+For each candidate, the system provides:
+
+- Match Score
+- Skills Match
+- Experience Match
+- Title Match
+- Recruiter Signals
+- Risk Score
+- Final Ranking Score
+
+This helps recruiters understand why a candidate is ranked above another candidate.
+
+## Additional Features
+
+### AI Job Description Generator
+
+Generate professional job descriptions automatically from uploaded resumes using Qwen 2.5 Coder 7B running locally through Ollama.
+
+### JD Gap Analysis
+
+Compare candidate skills against generated job requirements and identify:
+
+- Matched Skills
+- Missing Skills
+- JD Match Percentage
+
+### Candidate Comparison
+
+Compare top-ranked candidates side by side using:
+
+- Experience
+- Skills
+- GitHub Activity
+- Recruiter Signals
+
+### AI Recruiter Copilot
+
+Ask natural language questions such as:
+
+- Why was Candidate #1 selected?
+- Who is the best candidate?
+- Compare Candidate #1 and Candidate #2
+
+The assistant generates recruiter-friendly explanations based on candidate data.
+
+## Screenshots
+
+### Resume Upload & Skill Extraction
+
+![Resume Upload](screenshots/upload.png)
+
+### AI Generated Job Description
+
+![JD Generation](screenshots/jd_generation.png)
+
+### Candidate Ranking Dashboard
+
+![Ranking Dashboard](screenshots/ranking.png)
+
+### Candidate Comparison
+
+![Comparison](screenshots/comparison.png)
+
+### AI Recruiter Copilot
+
+![Recruiter Copilot](screenshots/copilot.png)
+
+## Technologies Used
 
 ## Technologies Used
 
 * Python
+* Streamlit
 * Sentence Transformers
 * FAISS
+* Ollama
+* Qwen2.5-Coder 7B
 * Pandas
 * NumPy
 * Scikit-Learn
